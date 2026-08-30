@@ -173,7 +173,70 @@ body {
 }
 
 .message {
-    max-width: 750px;
+    max-width: 750px;async function sendMessage() {
+
+    const input = document.getElementById("message");
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    const welcome = document.getElementById("welcome");
+
+    if (welcome) {
+        welcome.remove();
+    }
+
+    addMessage(text, "user");
+    input.value = "";
+
+    const loading = document.createElement("div");
+    loading.className = "message bot";
+    loading.innerText = "Ruby Maxiee is thinking... 🌹";
+
+    document.getElementById("chat").appendChild(loading);
+
+    try {
+
+        const response = await fetch(
+            "https://rubi-2abg.onrender.com/chat",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: text,
+                    history: []
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        loading.remove();
+
+        if (data.response) {
+
+            addMessage(data.response, "bot");
+
+        } else {
+
+            addMessage(
+                "Ruby Maxiee couldn't generate a response 😭",
+                "bot"
+            );
+
+            console.error(data);
+        }
+
+    } catch (error) {
+
+        loading.innerText =
+            "Connection problem da 😭 Please try again.";
+
+        console.error(error);
+    }
+        }
     margin: 15px auto;
     padding: 15px 18px;
     border-radius: 15px;
