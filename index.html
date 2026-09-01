@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+  />
+
+  <title>ZUZII — Chat</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- =========================
+       APP ROOT
+  ========================== -->
+  <div id="app">
+
+    <!-- =========================
+         LOGIN / SIGNUP SCREEN
+    ========================== -->
+    <section id="authScreen" class="screen auth-screen">
+
+      <div class="auth-background">
+        <div class="glow glow-one"></div>
+        <div class="glow glow-two"></div>
+        <div class="glow glow-three"></div>
+      </div>
+
+      <div class="auth-card">
+
+        <div class="brand-logo">
+          <div class="logo-icon">
+            <i class="fa-solid fa-comment"></i>
+          </div>
+
+          <h1>ZUZII</h1>
+        </div>
+
+        <p class="auth-tagline">
+          Chat. Connect. Feel closer.
+        </p>
+
+        <!-- Login -->
+        <div id="loginForm" class="auth-form">
+
+          <div class="input-group">
+            <i class="fa-solid fa-envelope"></i>
+            <input
+              id="emailInput"
+              type="email"
+              placeholder="Email address"
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="input-group">
+            <i class="fa-solid fa-lock"></i>
+            <input
+              id="passwordInput"
+              type="password"
+              placeholder="Password"
+              autocomplete="current-password"
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              onclick="togglePassword()"
+            >
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+
+          <button
+            id="loginBtn"
+            class="primary-btn"
+            onclick="loginUser()"
+          >
+            <span>Continue</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+
+          <div class="auth-divider">
+            <span>OR</span>
+          </div>
+
+          <button
+            class="secondary-btn"
+            onclick="showSignup()"
+          >
+            Create new account
+          </button>
+
+        </div>
+
+        <!-- Signup -->
+        <div id="signupForm" class="auth-form hidden">
+
+          <div class="input-group">
+            <i class="fa-solid fa-user"></i>
+            <input
+              id="signupName"
+              type="text"
+              placeholder="Your name"
+            />
+          </div>
+
+          <div class="input-group">
+            <i class="fa-solid fa-at"></i>
+            <input
+              id="signupUsername"
+              type="text"
+              placeholder="Username"
+            />
+          </div>
+
+          <div class="input-group">
+            <i class="fa-solid fa-envelope"></i>
+            <input
+              id="signupEmail"
+              type="email"
+              placeholder="Email address"
+            />
+          </div>
+
+          <div class="input-group">
+            <i class="fa-solid fa-lock"></i>
+            <input
+              id="signupPassword"
+              type="password"
+              placeholder="Create password"
+            />
+          </div>
+
+          <button
+            id="signupBtn"
+            class="primary-btn"
+            onclick="signupUser()"
+          >
+            <span>Create account</span>
+            <i class="fa-solid fa-sparkles"></i>
+          </button>
+
+          <button
+            class="text-btn"
+            onclick="showLogin()"
+          >
+            Already have an account? Sign in
+          </button>
+
+        </div>
+
+        <p id="authMessage" class="auth-message"></p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         MAIN APP
+    ========================== -->
+    <section id="mainApp" class="screen main-app hidden">
+
+      <!-- SIDEBAR / CHAT LIST -->
+      <aside class="sidebar">
+
+        <header class="sidebar-header">
+
+          <div class="profile-mini">
+            <div id="myAvatar" class="avatar gradient-avatar">
+              U
+            </div>
+
+            <div>
+              <h3 id="myName">User</h3>
+              <span id="myStatus">Online</span>
+            </div>
+          </div>
+
+          <div class="header-actions">
+
+            <button
+              class="icon-btn"
+              title="New chat"
+              onclick="openNewChat()"
+            >
+              <i class="fa-solid fa-pen"></i>
+            </button>
+
+            <button
+              class="icon-btn"
+              title="Settings"
+              onclick="openSettings()"
+            >
+              <i class="fa-solid fa-gear"></i>
+            </button>
+
+          </div>
+
+        </header>
+
+
+        <!-- SEARCH -->
+        <div class="search-box">
+
+          <i class="fa-solid fa-magnifying-glass"></i>
+
+          <input
+            id="chatSearch"
+            type="text"
+            placeholder="Search chats"
+            oninput="searchChats()"
+          />
+
+        </div>
+
+
+        <!-- STORIES -->
+        <div class="stories-section">
+
+          <div class="section-title">
+            <span>Stories</span>
+            <button onclick="openAllStories()">See all</button>
+          </div>
+
+          <div id="storiesRow" class="stories-row">
+
+            <div
+              class="story-add"
+              onclick="createStory()"
+            >
+              <div class="story-add-avatar">
+                <i class="fa-solid fa-plus"></i>
+              </div>
+
+              <span>Your story</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- CHAT LIST -->
+        <div class="chat-section">
+
+          <div class="section-title">
+            <span>Messages</span>
+
+            <span
+              id="unreadCount"
+              class="unread-count"
+            >
+              0
+            </span>
+          </div>
+
+          <div id="chatList" class="chat-list">
+
+            <!-- Chats will be inserted by app.js -->
+
+            <div class="empty-chat-list">
+              <div class="empty-icon">
+                <i class="fa-regular fa-comments"></i>
+              </div>
+
+              <h3>No conversations yet</h3>
+
+              <p>
+                Start a new conversation with someone.
+              </p>
+
+              <button
+                class="small-primary-btn"
+                onclick="openNewChat()"
+              >
+                Start chatting
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </aside>
+
+
+      <!-- =========================
+           CHAT AREA
+      ========================== -->
+      <main id="chatArea" class="chat-area">
+
+        <!-- EMPTY CHAT -->
+        <div
+          id="emptyChat"
+          class="empty-chat"
+        >
+
+          <div class="empty-chat-logo">
+            <i class="fa-solid fa-paper-plane"></i>
+          </div>
+
+          <h2>Welcome to ZUZII</h2>
+
+          <p>
+            Select a conversation and start chatting.
+          </p>
+
+        </div>
+
+
+        <!-- ACTIVE CHAT -->
+        <div
+          id="activeChat"
+          class="active-chat hidden"
+        >
+
+          <!-- CHAT HEADER -->
+          <header class="chat-header">
+
+            <button
+              class="mobile-back-btn"
+              onclick="closeChat()"
+            >
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+
+            <div
+              id="chatAvatar"
+              class="avatar gradient-avatar"
+            >
+              U
+            </div>
+
+            <div class="chat-user-info">
+
+              <h3 id="chatUserName">
+                User
+              </h3>
+
+              <span id="chatUserStatus">
+                online
+              </span>
+
+            </div>
+
+            <div class="chat-header-actions">
+
+              <button
+                class="icon-btn"
+                onclick="startVoiceCall()"
+                title="Voice call"
+              >
+                <i class="fa-solid fa-phone"></i>
+              </button>
+
+              <button
+                class="icon-btn"
+                onclick="startVideoCall()"
+                title="Video call"
+              >
+                <i class="fa-solid fa-video"></i>
+              </button>
+
+              <button
+                class="icon-btn"
+                onclick="openChatInfo()"
+                title="Chat info"
+              >
+                <i class="fa-solid fa-circle-info"></i>
+              </button>
+
+            </div>
+
+          </header>
+
+
+          <!-- MESSAGES -->
+          <div
+            id="messagesContainer"
+            class="messages-container"
+          >
+
+            <!-- Messages inserted by app.js -->
+
+          </div>
+
+
+          <!-- TYPING -->
+          <div
+            id="typingIndicator"
+            class="typing-indicator hidden"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+
+          <!-- MESSAGE INPUT -->
+          <div class="message-composer">
+
+            <button
+              class="composer-btn"
+              onclick="openAttachmentMenu()"
+            >
+              <i class="fa-solid fa-plus"></i>
+            </button>
+
+            <div class="message-input-wrapper">
+
+              <input
+                id="messageInput"
+                type="text"
+                placeholder="Message..."
+                autocomplete="off"
+                onkeydown="handleMessageKey(event)"
+                oninput="handleTyping()"
+              />
+
+              <button
+                class="emoji-btn"
+                onclick="toggleEmojiPicker()"
+              >
+                😊
+              </button>
+
+            </div>
+
+            <button
+              id="voiceBtn"
+              class="composer-btn"
+              onclick="startVoiceRecording()"
+            >
+              <i class="fa-solid fa-microphone"></i>
+            </button>
+
+            <button
+              id="sendBtn"
+              class="send-btn"
+              onclick="sendMessage()"
+            >
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+
+          </div>
+
+        </div>
+
+      </main>
+
+    </section>
+
+
+    <!-- =========================
+         STORY VIEWER
+    ========================== -->
+    <div
+      id="storyViewer"
+      class="modal story-viewer hidden"
+    >
+
+      <div class="story-progress">
+        <div class="progress-line"></div>
+      </div>
+
+      <header class="story-header">
+
+        <div class="story-user">
+
+          <div
+            id="storyAvatar"
+            class="avatar"
+          >
+            U
+          </div>
+
+          <div>
+            <strong id="storyUserName">
+              User
+            </strong>
+
+            <span id="storyTime">
+              Just now
+            </span>
+          </div>
+
+        </div>
+
+        <button
+          class="close-btn"
+          onclick="closeStoryViewer()"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+      </header>
+
+      <div
+        id="storyContent"
+        class="story-content"
+      >
+      </div>
+
+      <div class="story-actions">
+
+        <button onclick="reactToStory('❤️')">
+          ❤️
+        </button>
+
+        <button onclick="reactToStory('😂')">
+          😂
+        </button>
+
+        <button onclick="reactToStory('🔥')">
+          🔥
+        </button>
+
+        <div class="story-reply">
+
+          <input
+            id="storyReplyInput"
+            placeholder="Reply to story..."
+          />
+
+          <button onclick="replyToStory()">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         NEW CHAT MODAL
+    ========================== -->
+    <div
+      id="newChatModal"
+      class="modal-overlay hidden"
+    >
+
+      <div class="modal-card">
+
+        <header class="modal-header">
+
+          <h2>New conversation</h2>
+
+          <button
+            class="close-btn"
+            onclick="closeNewChat()"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+
+        </header>
+
+        <div class="search-box modal-search">
+
+          <i class="fa-solid fa-magnifying-glass"></i>
+
+          <input
+            id="userSearch"
+            placeholder="Search username..."
+            oninput="searchUsers()"
+          />
+
+        </div>
+
+        <div
+          id="userSearchResults"
+          class="user-search-results"
+        >
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         ATTACHMENT MENU
+    ========================== -->
+    <div
+      id="attachmentMenu"
+      class="attachment-menu hidden"
+    >
+
+      <button onclick="selectPhoto()">
+        <i class="fa-solid fa-image"></i>
+        <span>Photo</span>
+      </button>
+
+      <button onclick="selectVideo()">
+        <i class="fa-solid fa-video"></i>
+        <span>Video</span>
+      </button>
+
+      <button onclick="selectDocument()">
+        <i class="fa-solid fa-file"></i>
+        <span>Document</span>
+      </button>
+
+      <button onclick="selectCamera()">
+        <i class="fa-solid fa-camera"></i>
+        <span>Camera</span>
+      </button>
+
+    </div>
+
+
+    <!-- Hidden file inputs -->
+    <input
+      id="photoInput"
+      type="file"
+      accept="image/*"
+      hidden
+      onchange="handlePhoto(event)"
+    />
+
+    <input
+      id="videoInput"
+      type="file"
+      accept="video/*"
+      hidden
+      onchange="handleVideo(event)"
+    />
+
+    <input
+      id="documentInput"
+      type="file"
+      hidden
+      onchange="handleDocument(event)"
+    />
+
+
+    <!-- =========================
+         TOAST
+    ========================== -->
+    <div
+      id="toast"
+      class="toast hidden"
+    >
+      <i class="fa-solid fa-circle-check"></i>
+      <span id="toastMessage">
+        Done
+      </span>
+    </div>
+
+
+    <!-- =========================
+         LOADING
+    ========================== -->
+    <div
+      id="loadingScreen"
+      class="loading-screen hidden"
+    >
+
+      <div class="loading-logo">
+        <i class="fa-solid fa-comment"></i>
+      </div>
+
+      <div class="loading-spinner"></div>
+
+      <p>ZUZII</p>
+
+    </div>
+
+  </div>
+
+
+  <!-- App JavaScript -->
+  <script type="module" src="app.js"></script>
+
+</body>
+          </html>
