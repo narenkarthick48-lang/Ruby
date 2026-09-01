@@ -36,13 +36,15 @@ import {
    1. FIREBASE CONFIG
    ========================================================= */
 
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.firebasestorage.app",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBv30wRnc9CJAo0mFQF_7nAXuytZyurfkk",
+  authDomain: "ruba-34782.firebaseapp.com",
+  projectId: "ruba-34782",
+  storageBucket: "ruba-34782.firebasestorage.app",
+  messagingSenderId: "916875849283",
+  appId: "1:916875849283:web:79bd7170ade790527eeef6",
+  measurementId: "G-YY47Z8PCXQ"
 };
 
 
